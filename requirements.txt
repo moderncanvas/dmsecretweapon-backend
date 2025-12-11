@@ -1,0 +1,37 @@
+# Web Framework
+fastapi==0.115.5
+uvicorn[standard]==0.32.1
+python-multipart==0.0.19
+
+# AI & LLM
+anthropic>=0.41.0
+langchain==0.3.12
+langchain-anthropic==0.3.3
+langchain-chroma==0.1.4
+
+# Vector Database
+chromadb==0.5.23
+
+# Database
+sqlalchemy==2.0.36
+alembic==1.14.0
+
+# Environment & Configuration
+python-dotenv==1.0.1
+pydantic==2.10.4
+pydantic-settings==2.7.0
+
+# HTTP Client
+httpx==0.28.1
+requests==2.32.3
+
+# Utilities
+python-dateutil==2.9.0
+Pillow==11.0.0
+beautifulsoup4==4.12.3
+
+# Development
+pytest==8.3.4
+pytest-asyncio==0.24.0
+black==24.10.0
+ruff==0.8.4
