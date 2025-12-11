@@ -192,18 +192,17 @@ Examples:
         # Create a simple colored circle as placeholder
         placeholder_id = f"placeholder-{hashlib.md5(description.encode()).hexdigest()[:8]}"
 
-        # Use a generic fantasy icon as fallback - these are reliable URLs
-        fallback_url = "https://game-icons.net/icons/ffffff/000000/1x1/swordman.svg"
+        # Use our own placeholder endpoint - always reliable
+        # Note: This will be converted to full URL in owlbear_service
+        fallback_url = "/api/owlbear/placeholder.svg"
 
-        # Always return the fallback URL without trying to cache
-        # This ensures we always have a valid HTTP URL, never a data URI
         return {
             "id": placeholder_id,
             "name": description.title(),
             "url": fallback_url,
             "cached_path": None,  # Don't cache placeholder
             "source": "placeholder",
-            "attribution": "Game-icons.net - CC BY 3.0",
+            "attribution": "Generated placeholder",
             "type": "token"
         }
 

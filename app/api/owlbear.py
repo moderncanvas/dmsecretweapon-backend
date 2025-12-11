@@ -160,6 +160,28 @@ async def get_cache_info():
         raise HTTPException(status_code=500, detail=str(e))
 
 
+@router.get("/placeholder.svg")
+async def get_placeholder_svg():
+    """
+    Serve a simple placeholder token SVG
+    """
+    from starlette.responses import Response
+
+    svg_content = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <circle cx="50" cy="50" r="45" fill="#4a5568" stroke="#718096" stroke-width="2"/>
+  <text x="50" y="58" font-family="Arial" font-size="16" fill="white" text-anchor="middle">?</text>
+</svg>"""
+
+    return Response(
+        content=svg_content,
+        media_type="image/svg+xml",
+        headers={
+            "Cache-Control": "public, max-age=86400",
+            "Access-Control-Allow-Origin": "*"
+        }
+    )
+
+
 @router.get("/health")
 async def health_check():
     """

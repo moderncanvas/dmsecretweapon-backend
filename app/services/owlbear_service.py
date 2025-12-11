@@ -124,9 +124,12 @@ Return ONLY valid JSON in this exact format:
                 # Generate position
                 position = self._generate_position(i, len(scene_data.get("tokens", [])))
 
-                # Construct asset URL - either from cache or direct URL
+                # Construct asset URL - either from cache, relative path, or direct URL
                 if asset.get("cached_path"):
                     asset_url = f"{self.base_url}/api/owlbear/assets/cached/{asset['id']}"
+                elif asset["url"].startswith("/"):
+                    # Relative URL - prepend base URL
+                    asset_url = f"{self.base_url}{asset['url']}"
                 else:
                     asset_url = asset["url"]
 
@@ -184,9 +187,12 @@ Return ONLY valid JSON in this exact format:
                 # Generate stats based on creature type
                 hp, ac = self._generate_stats(creature_type, variant)
 
-                # Construct asset URL
+                # Construct asset URL - either from cache, relative path, or direct URL
                 if asset.get("cached_path"):
                     asset_url = f"{self.base_url}/api/owlbear/assets/cached/{asset['id']}"
+                elif asset["url"].startswith("/"):
+                    # Relative URL - prepend base URL
+                    asset_url = f"{self.base_url}{asset['url']}"
                 else:
                     asset_url = asset["url"]
 
