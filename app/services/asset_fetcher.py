@@ -192,32 +192,20 @@ Examples:
         # Create a simple colored circle as placeholder
         placeholder_id = f"placeholder-{hashlib.md5(description.encode()).hexdigest()[:8]}"
 
-        # Use a generic fantasy icon as fallback
+        # Use a generic fantasy icon as fallback - these are reliable URLs
         fallback_url = "https://game-icons.net/icons/ffffff/000000/1x1/swordman.svg"
 
-        try:
-            cached_path = await self._cache_asset(fallback_url, placeholder_id)
-
-            return {
-                "id": placeholder_id,
-                "name": description.title(),
-                "url": fallback_url,
-                "cached_path": str(cached_path),
-                "source": "placeholder",
-                "attribution": "Game-icons.net - CC BY 3.0",
-                "type": "token"
-            }
-        except Exception:
-            # If even fallback fails, return a data URL for a simple circle
-            return {
-                "id": placeholder_id,
-                "name": description.title(),
-                "url": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='40' fill='%23666'/%3E%3C/svg%3E",
-                "cached_path": None,
-                "source": "generated",
-                "attribution": "Generated placeholder",
-                "type": "token"
-            }
+        # Always return the fallback URL without trying to cache
+        # This ensures we always have a valid HTTP URL, never a data URI
+        return {
+            "id": placeholder_id,
+            "name": description.title(),
+            "url": fallback_url,
+            "cached_path": None,  # Don't cache placeholder
+            "source": "placeholder",
+            "attribution": "Game-icons.net - CC BY 3.0",
+            "type": "token"
+        }
 
     def get_cached_asset_path(self, asset_id: str) -> Optional[Path]:
         """Get path to cached asset by ID"""
