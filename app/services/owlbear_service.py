@@ -11,6 +11,10 @@ class OwlbearService:
         self.client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
         self.asset_fetcher = AssetFetcher()
         self.grid_size = 140  # OBR grid size in pixels
+        # Get the base URL for asset serving (Railway deployment URL)
+        self.base_url = os.getenv("RAILWAY_PUBLIC_DOMAIN", os.getenv("BASE_URL", "http://localhost:8000"))
+        if not self.base_url.startswith("http"):
+            self.base_url = f"https://{self.base_url}"
 
     async def generate_scene(
         self,
@@ -122,7 +126,7 @@ Return ONLY valid JSON in this exact format:
 
                 # Construct asset URL - either from cache or direct URL
                 if asset.get("cached_path"):
-                    asset_url = f"/api/owlbear/assets/cached/{asset['id']}"
+                    asset_url = f"{self.base_url}/api/owlbear/assets/cached/{asset['id']}"
                 else:
                     asset_url = asset["url"]
 
@@ -182,7 +186,7 @@ Return ONLY valid JSON in this exact format:
 
                 # Construct asset URL
                 if asset.get("cached_path"):
-                    asset_url = f"/api/owlbear/assets/cached/{asset['id']}"
+                    asset_url = f"{self.base_url}/api/owlbear/assets/cached/{asset['id']}"
                 else:
                     asset_url = asset["url"]
 
